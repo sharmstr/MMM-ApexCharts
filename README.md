@@ -32,7 +32,7 @@ Configure the module in your `config.js` file.
 To use this module, add it to the modules array in the `config/config.js` file:
 ````javascript
 {
-    module: 'MMM-ApexCharts',
+  module: 'MMM-ApexCharts',
 	config: {
 	    // See 'Configuration options' for more information.
 	}
@@ -60,17 +60,17 @@ The following options can be configured:
 Pie chart with default options:
 ````javascript
 {
-	module: "MMM-ApexCharts",
-	position: "top_center",
-    header: "Sample Chart A",
-    config: {
-        chartConfig: {
-          chart: {
-            type: 'pie'
-          },
-          series: [44, 55, 13, 43, 22],
-          labels: ['Team A', 'Team B', 'Team C', 'Team D', 'Team E']
-        }
-      }
+  module: "MMM-ApexCharts",
+  position: "top_center",
+  header: "Sample Chart A",
+  config: {
+    chartConfig: {
+    chart: {
+      type: 'pie'
+    },
+    series: [44, 55, 13, 43, 22],
+      labels: ['Team A', 'Team B', 'Team C', 'Team D', 'Team E']
+     }
+  }
 }
 ````
