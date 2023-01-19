@@ -1,0 +1,10 @@
+{
+  "name": "mmm-apexcharts",
+  "version": "1.0.0",
+  "description": "",
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "apexcharts": "^3.35.1"
+  }
+}
