@@ -1,50 +1,66 @@
 /* global Module */
-
-
 /* Magic Mirror
  * Module: MMM-ApexCharts
  *
- * By Sharmstr https://github.com/sharmstr/
+ * By sharmstr https://github.com/sharmstr/
  * MIT Licensed.
  */
 
 Module.register("MMM-ApexCharts", {
-  defaults: {
-      width       : 200,
-      height      : 200,
-      chartConfig : {}
+  defaults: {      
+      chartBackground       : 'transparent', //overrides gray background produced when theme mode is set to dark
+      chartDataLabels       : true,
+      chartHeight           : 400, // not to be confused with chart height
+      chartMonochrome       : true, //works best with default MM css
+      chartMonochromeColor  : '#534F4F', //works best with default MM css
+      chartThemeMode        : 'dark', //works best with default MM css
+      chartWidth            : 400, 
+      chartConfig           : {}     
   },
 
   getScripts: function() {
-  return ["modules/" + this.name + "/node_modules/chart.js/dist/chart.umd.js", "modules/" + this.name + "/node_modules/chartjs-plugin-autocolors/dist/chartjs-plugin-autocolors.min.js"];
- 
-},
+    return ["modules/" + this.name + "/node_modules/apexcharts/dist/apexcharts.min.js"]; 
+  },
 
 
-start: function() {
-      this.config = Object.assign({}, this.defaults, this.config);
-      Log.info("Starting module: " + this.name);
-},
+  start: function() {
+    this.config = Object.assign({}, this.defaults, this.config);
+    Log.info("Starting module: " + this.name);
 
-getDom: function() {
-      // Create wrapper element
-      const wrapperEl = document.createElement("div");
-      wrapperEl.setAttribute("style", "position: relative; display: inline-block;");
+  },
 
-      // Create chart canvas
-      const chartEl  = document.createElement("canvas");        
-
-      // Init chart.js
-      this.chart = new Chart(chartEl.getContext("2d"), this.config.chartConfig);
-     
-      // Set the size
-      chartEl.width  = this.config.width;
-      chartEl.height = this.config.height;
-      chartEl.setAttribute("style", "display: block;");
-
-      // Append chart
-      wrapperEl.appendChild(chartEl);
-
-  return wrapperEl;
-}
+  getDom: function() {
+    var self = this;
+    self.wrapper = document.createElement("div");
+    self.wrapper.id = "ApexCharts_" + this.config.chartID;
+    self.wrapper.setAttribute("style", "position: relative; display: inline-block;");
+    return self.wrapper;
+  },
+  
+  notificationReceived: function(notification, payload, sender) {
+    switch(notification) {
+      case "DOM_OBJECTS_CREATED":
+        var chart = new ApexCharts(document.getElementById("ApexCharts_" + this.config.chartID), this.config.chartConfig);
+        chart.render(); 
+        chart.updateOptions({
+          chart: {
+            background: this.config.chartBackground,
+            height: this.config.chartHeight,
+            width: this.config.chartWidth
+          },
+          theme: {
+            mode: this.config.chartThemeMode,
+            monochrome: {
+              enabled: this.config.chartMonochrome,
+              color: this.config.chartMonochromeColor
+            }
+          },
+          dataLabels: {
+            enabled: this.config.chartDataLabels
+          }
+        })       
+        break
+    }
+  }  
+  
 });

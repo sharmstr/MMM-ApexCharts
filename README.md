@@ -1,8 +1,7 @@
 # MMM-ApexCharts
-Chart module for ApexCharts.js running on [MagicMirror²](https://github.com/MichMich/MagicMirror). This is a simple wrapper for [ApexCharts.js](https://apexcharts.com/)
+Chart module using [ApexCharts.js](https://apexcharts.com/) for [MagicMirror²](https://github.com/MichMich/MagicMirror).
 
-## Screenshot
-![](.github/example.png)
+##
 
 ## Installation
 
@@ -27,7 +26,7 @@ npm install
 
 Configure the module in your `config.js` file.
 
-## Using the module
+## Usage
 
 To use this module, add it to the modules array in the `config/config.js` file:
 ````javascript
@@ -43,11 +42,16 @@ modules: [
 
 ## Configuration options
 
-The following property can be configured:
+The following options can be configured:
 
 | Option      | Description             | Default value |
 | ------------|-------------------------|:-------------:|
-| width       | Chart width in px.      | ```200```     |
-| height      | Chart height in px.     | ```200```     |
+| chartBackground       | Chart background color.      | ```transparent```     |
+| chartDataLabels       | Display data lables.      | ```true```     |
+| chartHeight      | Chart height in px.     | ```400```     |
+| chartMonochrome       | Use monochrome color palette.      | ```true```     |
+| chartMonochromeColor       | Base color for generating shades.      | ```#534F4F```     |
+| chartThemeMode       | Color theme.  Dark or Light.      | ```dark```     |
+| chartWidth       | Chart width in px.      | ```400```     |
 | chartConfig | ApexChart.js config. More info at [apexcharts.js](https://apexcharts.com/) | ```{}``` |
 
