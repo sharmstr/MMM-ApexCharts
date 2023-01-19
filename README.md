@@ -74,3 +74,4 @@ Pie chart with default options:
   }
 }
 ````
+![](.github/sampleA.png)
