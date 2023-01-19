@@ -75,3 +75,22 @@ Pie chart with default options:
 }
 ````
 ![](.github/sampleA.png)
+
+Same pie chart with custom options:
+````javascript
+{
+  module: "MMM-ApexCharts",
+  position: "top_center",
+  header: "Sample Chart B",
+  config: {
+    chartConfig: {
+    chart: {
+      type: 'pie'
+    },
+    series: [44, 55, 13, 43, 22],
+      labels: ['Team A', 'Team B', 'Team C', 'Team D', 'Team E']
+     }
+  }
+}
+````
+![](.github/sampleB.png)
