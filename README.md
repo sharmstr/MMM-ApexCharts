@@ -65,10 +65,10 @@ Pie chart with default options:
   header: "Sample Chart A",
   config: {
     chartConfig: {
-    chart: {
-      type: 'pie'
-    },
-    series: [44, 55, 13, 43, 22],
+      chart: {
+        type: 'pie'
+      },
+      series: [44, 55, 13, 43, 22],
       labels: ['Team A', 'Team B', 'Team C', 'Team D', 'Team E']
      }
   }
@@ -83,6 +83,8 @@ Same pie chart with custom options:
   position: "top_center",
   header: "Sample Chart B",
   config: {
+    chartMonochrome: false,  // Disabled monochrome coloring
+    chartDataLabels: false,  // Removed data point lables
     chartConfig: {
     chart: {
       type: 'pie'
@@ -94,3 +96,34 @@ Same pie chart with custom options:
 }
 ````
 ![](.github/sampleB.png)
+
+Bar chart with default options:
+````javascript
+{
+  module: "MMM-ApexCharts",
+  position: "top_center",
+  header: "Sample Chart C",
+  config: {
+    chartConfig: {       
+      chart: {
+        type: 'bar'
+      },
+      series: [{
+        data: [400, 430, 448, 470, 540, 580, 690, 1100, 1200, 1380]
+      }],
+      plotOptions: {
+        bar: {
+          borderRadius: 4,
+          horizontal: true,
+        }
+      },
+      xaxis: {
+        categories: ['South Korea', 'Canada', 'United Kingdom', 'Netherlands', 'Italy', 'France', 'Japan',
+          'United States', 'China', 'Germany'
+        ],
+      }
+    }
+  }
+}
+````
+![](.github/sampleC.png)
