@@ -52,7 +52,7 @@ The following options can be configured:
 | chartHeight      | Chart height in px.     | ```400```     |
 | chartID      | ID assigned to chart. Allows for multiple charts.     | ```1```     |
 | chartInterval      | How often to update JSON chart data in seconds.     | ```null```     |
-| chartJsonSeriesFormat       | JSON format of chart data.      | ```single```     |
+| chartJsonSeriesFormat       | JSON format of chart data. paired or pie     | ```paired```     |
 | chartJsonUrl       | URL to fetch JSON data.      | ```null```     |
 | chartMonochrome       | Use monochrome color palette.      | ```true```     |
 | chartMonochromeColor       | Base color for generating shades.      | ```#534F4F```     |
@@ -236,8 +236,8 @@ Fetching chart data from JSON API
     chartID: 2,  // Important when more than one chart
     chartInterval: 1000 * 60, // fetch JSON data every x seconds
     chartDataLabels: false,
-    chartJsonSeriesFormat: 'single',
-    chartJsonUrl: 'http://my-json-server.typicode.com/apexcharts/apexcharts.js/yearly',
+    chartJsonSeriesFormat: 'paired',
+    chartJsonUrl: 'http://my-json-server.typicode.com/sharmstr/MMM-ApexCharts/paired',
     chartMonochromeColor: '#ffffff',
     chartConfig: {
       chart: {

@@ -18,9 +18,9 @@ Module.register("MMM-ApexCharts", {
     chartID               : 1, //allows for multiple charts
     chartInterval         : null, 
     chartAnimationSpeed   : 1000,
-    // format of chart data: single, pie (coming soon: paired, paired-xy, paired-category)
+    // format of chart data: paired, pie
     // for more info, see apexchart docs:  https://apexcharts.com/docs/series/
-    chartJsonSeriesFormat : 'single',
+    chartJsonSeriesFormat : 'paired',
     chartJsonUrl          : null,
     chartMonochrome       : true, //works best with default MM css
     chartMonochromeColor  : '#534F4F', //works best with default MM css
@@ -96,7 +96,7 @@ Module.register("MMM-ApexCharts", {
     .then((response) => response.json())
     .then((data) => {
       switch(this.config.chartJsonSeriesFormat) {
-        case 'single':
+        case 'paired':
           this.chart.updateSeries([{
             name: '',
             data: data
