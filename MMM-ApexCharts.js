@@ -7,21 +7,22 @@
  */
 
 Module.register("MMM-ApexCharts", {
-  defaults: {      
-      chartBackground       : 'transparent', //overrides gray background produced when theme mode is set to dark
-      chartDataLabels       : true,
-      chartHeight           : 400, // not to be confused with chart height
-      chartMonochrome       : true, //works best with default MM css
-      chartMonochromeColor  : '#534F4F', //works best with default MM css
-      chartThemeMode        : 'dark', //works best with default MM css
-      chartWidth            : 400, 
-      chartConfig           : {}     
+  defaults: {
+    chartBackground       : 'transparent', //overrides gray background produced when theme mode is set to dark
+    chartDataLabels       : true,
+    chartHeight           : 400,
+    chartID               : 1, //allows for multiple charts
+    chartJsonUrl          : null,
+    chartMonochrome       : true, //works best with default MM css
+    chartMonochromeColor  : '#999999', //works best with default MM css
+    chartThemeMode        : 'dark', //works best with default MM css
+    chartWidth            : 400, 
+    chartConfig           : {}   
   },
 
   getScripts: function() {
     return ["modules/" + this.name + "/node_modules/apexcharts/dist/apexcharts.min.js"]; 
   },
-
 
   start: function() {
     this.config = Object.assign({}, this.defaults, this.config);
@@ -40,6 +41,7 @@ Module.register("MMM-ApexCharts", {
   notificationReceived: function(notification, payload, sender) {
     switch(notification) {
       case "DOM_OBJECTS_CREATED":
+        
         var chart = new ApexCharts(document.getElementById("ApexCharts_" + this.config.chartID), this.config.chartConfig);
         chart.render(); 
         chart.updateOptions({
@@ -58,9 +60,25 @@ Module.register("MMM-ApexCharts", {
           dataLabels: {
             enabled: this.config.chartDataLabels
           }
-        })       
+        })
+        
+        if (this.config.chartJsonUrl) {
+          Log.info("Should get json: " + this.config.chartJsonUrl);
+          fetch(this.config.chartJsonUrl)
+          .then((response) => response.json())
+          .then((data) => {
+            chart.updateSeries([{
+              name: 'Sales',
+              data: data
+            }])
+           
+          });
+        }    
+
         break
     }
-  }  
+  },
+
+ 
   
 });

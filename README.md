@@ -216,3 +216,5 @@ Multiple charts on mirror.  The important thing to note here is the unique chart
 }
 ````
 ![](.github/sampleMultiple.png)
+
+Fetching chart data from JSON API
