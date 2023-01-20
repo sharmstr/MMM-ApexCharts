@@ -256,5 +256,5 @@ Fetching chart data from JSON API
   }
 }
 ````
-![](.github/sampleJSON.png)
+![](.github/sampleJson.png)
 
