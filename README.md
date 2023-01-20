@@ -2,6 +2,8 @@
 # MMM-ApexCharts
 Chart module using [ApexCharts.js](https://apexcharts.com/) for [MagicMirror²](https://github.com/MichMich/MagicMirror).
 
+Chart data can be supplied in config or pulled from JSON api.  Currently the data is only retrieved once.  I'll be adding interval update soon.
+
 ##
 
 ## Installation
@@ -49,6 +51,8 @@ The following options can be configured:
 | chartDataLabels       | Display data lables.      | ```true```     |
 | chartHeight      | Chart height in px.     | ```400```     |
 | chartID      | ID assigned to chart. Allows for multiple charts.     | ```1```     |
+| chartJsonSeriesFormat       | JSON format of chart data.      | ```single```     |
+| chartJsonUrl       | URL to fetch JSON data.      | ```null```     |
 | chartMonochrome       | Use monochrome color palette.      | ```true```     |
 | chartMonochromeColor       | Base color for generating shades.      | ```#534F4F```     |
 | chartThemeMode       | Color theme.  Dark or Light.      | ```dark```     |
@@ -218,3 +222,39 @@ Multiple charts on mirror.  The important thing to note here is the unique chart
 ![](.github/sampleMultiple.png)
 
 Fetching chart data from JSON API
+````javascript
+{
+  module: "MMM-ApexCharts",
+  position: "top_center",
+  header: "Sample Chart JSON",
+  config: {
+    chartID: 2,  // Important when more than one chart
+    chartDataLabels: false,
+    chartJsonSeriesFormat: 'single',
+    chartJsonUrl: 'http://my-json-server.typicode.com/apexcharts/apexcharts.js/yearly',
+    chartMonochromeColor: '#ffffff',
+    chartConfig: {
+      chart: {
+        type: 'bar',
+        zoom: {
+          enabled: false,
+        }
+      },
+      series: [],
+      noData: {
+        text: 'Loading...'
+      },
+      xaxis: {
+        type: 'category',
+        tickPlacement: 'on',
+        labels: {
+          rotate: -45,
+          rotateAlways: true
+        }
+      }
+    }
+  }
+}
+````
+![](.github/sampleMultiple.png)
+

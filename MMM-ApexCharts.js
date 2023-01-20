@@ -4,6 +4,8 @@
  *
  * By sharmstr https://github.com/sharmstr/
  * MIT Licensed.
+ * 
+ * 
  */
 
 Module.register("MMM-ApexCharts", {
@@ -12,9 +14,12 @@ Module.register("MMM-ApexCharts", {
     chartDataLabels       : true,
     chartHeight           : 400,
     chartID               : 1, //allows for multiple charts
+    // format of chart data: single, pie (coming soon: paired, paired-xy, paired-category)
+    // for more info, see apexchart docs:  https://apexcharts.com/docs/series/
+    chartJsonSeriesFormat : 'single',
     chartJsonUrl          : null,
     chartMonochrome       : true, //works best with default MM css
-    chartMonochromeColor  : '#999999', //works best with default MM css
+    chartMonochromeColor  : '#534F4F', //works best with default MM css
     chartThemeMode        : 'dark', //works best with default MM css
     chartWidth            : 400, 
     chartConfig           : {}   
@@ -40,45 +45,75 @@ Module.register("MMM-ApexCharts", {
   
   notificationReceived: function(notification, payload, sender) {
     switch(notification) {
-      case "DOM_OBJECTS_CREATED":
-        
-        var chart = new ApexCharts(document.getElementById("ApexCharts_" + this.config.chartID), this.config.chartConfig);
-        chart.render(); 
-        chart.updateOptions({
-          chart: {
-            background: this.config.chartBackground,
-            height: this.config.chartHeight,
-            width: this.config.chartWidth
-          },
-          theme: {
-            mode: this.config.chartThemeMode,
-            monochrome: {
-              enabled: this.config.chartMonochrome,
-              color: this.config.chartMonochromeColor
-            }
-          },
-          dataLabels: {
-            enabled: this.config.chartDataLabels
-          }
-        })
+      case "DOM_OBJECTS_CREATED":   
+      
+        var chartData = null;
         
         if (this.config.chartJsonUrl) {
           Log.info("Should get json: " + this.config.chartJsonUrl);
           fetch(this.config.chartJsonUrl)
           .then((response) => response.json())
           .then((data) => {
-            chart.updateSeries([{
-              name: 'Sales',
-              data: data
-            }])
+            this.buildChart(data);           
            
           });
-        }    
+        } else {
+          this.buildChart(chartData);
+        }  
 
         break
     }
   },
 
- 
-  
+  buildChart: function(chartData) {
+      
+    var chart = new ApexCharts(document.getElementById("ApexCharts_" + this.config.chartID), this.config.chartConfig);
+    chart.render(); 
+    chart.updateOptions({
+      chart: {
+        background: this.config.chartBackground,
+        height: this.config.chartHeight,
+        width: this.config.chartWidth
+      },
+      theme: {
+        mode: this.config.chartThemeMode,
+        monochrome: {
+          enabled: this.config.chartMonochrome,
+          color: this.config.chartMonochromeColor
+        }
+      },
+      dataLabels: {
+        enabled: this.config.chartDataLabels
+      }
+    })  
+
+    // if chart data comes from api
+    if(chartData) {
+      console.log(chartData);
+      switch(this.config.chartJsonSeriesFormat) {
+        case 'single':
+          console.log("Single data: " + chartData);
+          chart.updateSeries([{
+            name: '',
+            data: chartData
+          }])
+          break;
+
+        case 'pie':
+          console.log("Pie data: " + chartData.series);
+          chart.updateOptions({
+            series: chartData.series,
+            labels: chartData.labels
+          })
+          break;
+
+        default:
+          chart.updateSeries([{
+            name: '',
+            data: chartData
+          }])
+          break;
+      }          
+    }
+  }  
 });
