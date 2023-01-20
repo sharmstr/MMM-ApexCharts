@@ -51,6 +51,7 @@ The following options can be configured:
 | chartDataLabels       | Display data lables.      | ```true```     |
 | chartHeight      | Chart height in px.     | ```400```     |
 | chartID      | ID assigned to chart. Allows for multiple charts.     | ```1```     |
+| chartInterval      | How often to update JSON chart data in seconds.     | ```null```     |
 | chartJsonSeriesFormat       | JSON format of chart data.      | ```single```     |
 | chartJsonUrl       | URL to fetch JSON data.      | ```null```     |
 | chartMonochrome       | Use monochrome color palette.      | ```true```     |
@@ -58,6 +59,10 @@ The following options can be configured:
 | chartThemeMode       | Color theme.  Dark or Light.      | ```dark```     |
 | chartWidth       | Chart width in px.      | ```400```     |
 | chartConfig | ApexChart.js config. More info at [apexcharts.js](https://apexcharts.com/) | ```{}``` |
+
+## Usage Notes
+
+If the chartInterval option is not set in your config, the chart will only fetch the JSON data at startup.
 
 ## Examples
 
@@ -229,6 +234,7 @@ Fetching chart data from JSON API
   header: "Sample Chart JSON",
   config: {
     chartID: 2,  // Important when more than one chart
+    chartInterval: 1000 * 60, // fetch JSON data every x seconds
     chartDataLabels: false,
     chartJsonSeriesFormat: 'single',
     chartJsonUrl: 'http://my-json-server.typicode.com/apexcharts/apexcharts.js/yearly',

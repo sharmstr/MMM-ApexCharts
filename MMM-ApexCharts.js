@@ -5,6 +5,8 @@
  * By sharmstr https://github.com/sharmstr/
  * MIT Licensed.
  * 
+ * v1 - Initial Release
+ * v2 - Better JSON support
  * 
  */
 
@@ -14,6 +16,8 @@ Module.register("MMM-ApexCharts", {
     chartDataLabels       : true,
     chartHeight           : 400,
     chartID               : 1, //allows for multiple charts
+    chartInterval         : null, 
+    chartAnimationSpeed   : 1000,
     // format of chart data: single, pie (coming soon: paired, paired-xy, paired-category)
     // for more info, see apexchart docs:  https://apexcharts.com/docs/series/
     chartJsonSeriesFormat : 'single',
@@ -25,6 +29,8 @@ Module.register("MMM-ApexCharts", {
     chartConfig           : {}   
   },
 
+  requiresVersion: "2.1.0", // Required version of MagicMirror
+
   getScripts: function() {
     return ["modules/" + this.name + "/node_modules/apexcharts/dist/apexcharts.min.js"]; 
   },
@@ -32,6 +38,12 @@ Module.register("MMM-ApexCharts", {
   start: function() {
     this.config = Object.assign({}, this.defaults, this.config);
     Log.info("Starting module: " + this.name);
+
+    if (this.config.chartInterval && this.config.chartJsonUrl) {
+      setInterval(() => {
+        this.updateChart();
+      }, this.config.chartInterval);
+    }  
 
   },
 
@@ -47,29 +59,15 @@ Module.register("MMM-ApexCharts", {
     switch(notification) {
       case "DOM_OBJECTS_CREATED":   
       
-        var chartData = null;
-        
-        if (this.config.chartJsonUrl) {
-          Log.info("Should get json: " + this.config.chartJsonUrl);
-          fetch(this.config.chartJsonUrl)
-          .then((response) => response.json())
-          .then((data) => {
-            this.buildChart(data);           
-           
-          });
-        } else {
-          this.buildChart(chartData);
-        }  
-
-        break
+        this.buildChart();
+        break;
     }
   },
 
-  buildChart: function(chartData) {
-      
-    var chart = new ApexCharts(document.getElementById("ApexCharts_" + this.config.chartID), this.config.chartConfig);
-    chart.render(); 
-    chart.updateOptions({
+  buildChart: function() {      
+    this.chart = new ApexCharts(document.getElementById("ApexCharts_" + this.config.chartID), this.config.chartConfig);
+    this.chart.render(); 
+    this.chart.updateOptions({
       chart: {
         background: this.config.chartBackground,
         height: this.config.chartHeight,
@@ -87,33 +85,39 @@ Module.register("MMM-ApexCharts", {
       }
     })  
 
-    // if chart data comes from api
-    if(chartData) {
-      console.log(chartData);
+    if (this.config.chartJsonUrl) {
+      this.updateChart();
+    }
+  },
+
+  updateChart: function() {   
+    Log.info("Fetching JSON: " + this.config.chartJsonUrl);
+    fetch(this.config.chartJsonUrl)
+    .then((response) => response.json())
+    .then((data) => {
       switch(this.config.chartJsonSeriesFormat) {
         case 'single':
-          console.log("Single data: " + chartData);
-          chart.updateSeries([{
+          this.chart.updateSeries([{
             name: '',
-            data: chartData
+            data: data
           }])
           break;
 
         case 'pie':
-          console.log("Pie data: " + chartData.series);
-          chart.updateOptions({
-            series: chartData.series,
-            labels: chartData.labels
+          this.chart.updateOptions({
+            series: data.series,
+            labels: data.labels
           })
           break;
 
         default:
-          chart.updateSeries([{
+          this.chart.updateSeries([{
             name: '',
-            data: chartData
+            data: data
           }])
           break;
       }          
-    }
+      
+    });
   }  
 });
