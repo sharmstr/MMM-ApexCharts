@@ -7,6 +7,7 @@
  * 
  * v1 - Initial Release
  * v2 - Better JSON support
+ * v2.1 - Stacked bar chart support
  * 
  */
 
