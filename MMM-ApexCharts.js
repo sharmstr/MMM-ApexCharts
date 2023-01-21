@@ -18,7 +18,7 @@ Module.register("MMM-ApexCharts", {
     chartID               : 1, //allows for multiple charts
     chartInterval         : null, 
     chartAnimationSpeed   : 1000,
-    // format of chart data: paired, pie
+    // format of chart data: paired, pie, stacked
     // for more info, see apexchart docs:  https://apexcharts.com/docs/series/
     chartJsonSeriesFormat : 'paired',
     chartJsonUrl          : null,
@@ -96,20 +96,16 @@ Module.register("MMM-ApexCharts", {
     .then((response) => response.json())
     .then((data) => {
       switch(this.config.chartJsonSeriesFormat) {
-        case 'paired':
-          this.chart.updateSeries([{
-            name: '',
-            data: data
-          }])
-          break;
-
+       
         case 'pie':
+        case 'stacked':
           this.chart.updateOptions({
             series: data.series,
             labels: data.labels
           })
           break;
-
+        
+        case 'paired':
         default:
           this.chart.updateSeries([{
             name: '',
