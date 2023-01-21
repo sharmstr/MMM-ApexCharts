@@ -70,15 +70,19 @@ There are several examples in the wiki
 
 ## Screenshots
 
-Pie chart
+Pie chart:
+
 ![](.github/sampleA.png)
 
 Same pie chart with custom options:
+
 ![](.github/sampleB.png)
 
 Bar chart with default options:
+
 ![](.github/sampleC.png)
 
-Multiple charts on mirror.  The important thing to note here is the unique chartID option for each chart.
+Multiple charts on mirror: 
+
 ![](.github/sampleMultiple.png)
 
