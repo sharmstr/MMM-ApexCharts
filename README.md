@@ -68,6 +68,7 @@ The following options can be configured:
 - If the chartInterval option is not set in your config, the chart will only fetch the JSON data at startup.
 
 - *chartJsonFormat* options explained:
+
 *paried:* Data is in a two dimensional array where the 1st index is the x axes value and the 2nd index is the y axes value. The x value can be numeric or a category.  Examples of json structures and options :
 
 ````
@@ -77,7 +78,9 @@ The following options can be configured:
 }]
 ````
 chartJsonFormat: "paired"
+
 chartJsonSeriesName: not required
+
 chartJsonLabelCatName: not required
 
 
@@ -92,7 +95,9 @@ chartJsonLabelCatName: not required
 }]
 ````
 chartJsonFormat: "paired"
+
 chartJsonSeriesName: "fruit"
+
 chartJsonLabelCatName: not required
 
 
@@ -106,7 +111,9 @@ chartJsonLabelCatName: not required
  
 ````
 chartJsonFormat: "labels" or "categories"
+
 chartJsonSeriesName: "series"
+
 chartJsonLabelCatName: "fruits"
 
 
