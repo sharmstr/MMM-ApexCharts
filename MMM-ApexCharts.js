@@ -8,6 +8,7 @@
  * v1 - Initial Release
  * v2 - Better JSON support
  * v2.1 - Stacked bar chart support
+ * v3 - Renamed option names.  chartJsonFomat has reconfigured options.  Added color palette support.
  * 
  */
 
@@ -17,15 +18,15 @@ Module.register("MMM-ApexCharts", {
     chartDataLabels       : true,
     chartHeight           : 400,
     chartID               : 1, //allows for multiple charts
-    chartInterval         : null, 
-    chartAnimationSpeed   : 1000,
-    // format of chart data: paired, pie, stacked
-    // for more info, see apexchart docs:  https://apexcharts.com/docs/series/
-    chartJsonSeriesFormat : 'paired',
+    chartJsonFormat       : 'paired',  //paired, labels, categories
+    chartJsonInterval     : null, 
+    chartJsonLabelCatName : 'labels',
+    chartJsonSeriesName   : null,
     chartJsonUrl          : null,
     chartMonochrome       : true, //works best with default MM css
     chartMonochromeColor  : '#534F4F', //works best with default MM css
     chartThemeMode        : 'dark', //works best with default MM css
+    chartThemePalette     : 'palette1', // Available palettes – palette1 to palette10
     chartWidth            : 400, 
     chartConfig           : {}   
   },
@@ -40,10 +41,10 @@ Module.register("MMM-ApexCharts", {
     this.config = Object.assign({}, this.defaults, this.config);
     Log.info("Starting module: " + this.name);
 
-    if (this.config.chartInterval && this.config.chartJsonUrl) {
+    if (this.config.chartJsonInterval && this.config.chartJsonUrl) {
       setInterval(() => {
         this.updateChart();
-      }, this.config.chartInterval);
+      }, this.config.chartJsonInterval);
     }  
 
   },
@@ -76,6 +77,7 @@ Module.register("MMM-ApexCharts", {
       },
       theme: {
         mode: this.config.chartThemeMode,
+        palette: this.config.chartThemePalette,
         monochrome: {
           enabled: this.config.chartMonochrome,
           color: this.config.chartMonochromeColor
@@ -96,24 +98,35 @@ Module.register("MMM-ApexCharts", {
     fetch(this.config.chartJsonUrl)
     .then((response) => response.json())
     .then((data) => {
-      switch(this.config.chartJsonSeriesFormat) {
+      switch(this.config.chartJsonFormat) {
        
-        case 'pie':
-        case 'stacked':
+        case 'labels':
           this.chart.updateOptions({
-            series: data.series,
-            labels: data.labels
+            series: data[this.config.chartJsonSeriesName],
+            labels: data[this.config.chartJsonLabelCatName]
+          })
+          break;
+
+        case 'categories':
+          this.chart.updateOptions({
+            series: data[this.config.chartJsonSeriesName],
+            xaxis: {
+              categories: data[this.config.chartJsonLabelCatName]
+            }
           })
           break;
         
         case 'paired':
         default:
+          if(this.config.chartJsonSeriesName) {
+            data = data[this.config.chartJsonSeriesName]
+          } 
           this.chart.updateSeries([{
             name: '',
             data: data
           }])
           break;
-      }          
+      }  
       
     });
   }  
