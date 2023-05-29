@@ -15,7 +15,7 @@ cd ~/MagicMirror/modules
 
 Clone this repository:
 ````
-git clone https://github.com/sharmst/MMM-ApexCharts.git
+git clone https://github.com/sharmstr/MMM-ApexCharts.git
 ````
 
 Install dependencies:
